@@ -11,14 +11,13 @@ export interface ITodoItem {
 export interface ITodoProps {
 	todoList: ITodoItem[]
 }
-
-
 export interface ITodoState {
-	todoList: ITodoItem[],
-	inputValue: string,
+    todoList: ITodoItem[],
 }
-
 export interface ITodoHandleEvent {
     handleDeleteItem(id: string): void,
-    handlechangeItemStatus(id: string): void 
+    handlechangeItemStatus(id: string): void,
+}
+export interface ITodoHandleAddItem{
+    handleAddItem(value: string): void
 }

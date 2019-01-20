@@ -4,10 +4,6 @@ body {
   	font-family: PingFangSC-Medium;
 }
 
-ul {
-	margin-left: -40px;
-}
-
 li {
 	list-style: none;
 	background: #ccc;
@@ -21,7 +17,8 @@ li {
 
 input {
 	width: 546px;
-    height: 50px;
+	height: 50px;
+	font-size: 22px;
 }
 
 button {
@@ -42,6 +39,10 @@ button {
 .done {
 	background-color: black;
 	color: #fff;
+}
+ 
+.header {
+	margin-bottom: 15px;
 }
 
 .footer span {

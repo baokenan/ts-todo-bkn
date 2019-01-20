@@ -1,47 +1,34 @@
-// import * as React from 'react';
+import * as React from 'react';
+import { ITodoHandleAddItem } from './interface';
+export default class Header extends React.Component<ITodoHandleAddItem, {}> {
+    public readonly state = {
+        inputValue: ''
+    }
 
-// interface ITodoState {
-//     inputValue: string
-// }
+    constructor(props: any) {
+        super(props);
+    }
 
-// interface ITodoProps {
-//     handleAddItem(value: string): void
-// }
+    public render() {
+        return (
+            <div className='header'>
+                <input onChange={this.handleInputChange} value={this.state.inputValue} />
+                <button onClick={this.handleAddItem}>add</button>
+            </div>
+        );
+    }
 
-// export default class Header extends React.Component<ITodoProps, {}> {
-//     public readonly state: Readonly<ITodoState> = {
-//         inputValue: ''
-//     }
-// 	constructor(props: any) {
-// 		super(props);
-// 		// this.handleDoneItem = this.handleDoneItem.bind(this);
-// 	}
-//     public render() {
-//         return (
-//             <div className='header'>
-//                 <input id="in" onChange={this.handleInputChange} value={this.state.inputValue} />
-//                 <button onClick={this.handleAddItem}>add</button>
-//             </div>
-//         );
-//     }
+    private handleInputChange = (): void => {
+        const el: HTMLInputElement | any = document.querySelector('input');
 
-//     private handleInputChange = (): void => {
-//         const el: HTMLInputElement | any = document.querySelector('input');
+        this.setState({ inputValue: el.value });
+    }
 
-//         this.setState({
-//             inputValue: el.value
-//         });
-//     }
+    private handleAddItem = (): void => {
+        const el: HTMLInputElement | any = document.querySelector('input');
 
-//     private handleAddItem = (): void => {
-//         const el: HTMLInputElement | any = document.querySelector('input');
-//         this.props.handleAddItem(el.value)
-//         // this.setState({
-//         //     inputValue: ''
-//         // }, () => {
-//         //     el.focus();
-//         //     this.props.handleAddItem(el.value)
-//         // })
+        if (el.value !== '') { this.props.handleAddItem(el.value); }
 
-//     }
-// }
+        this.setState({ inputValue: '' }, (): void => { el.focus(); })
+    }
+}
