@@ -3,21 +3,16 @@ export interface ITodoItem {
 	done: boolean,
 	id: string
 }
-
-// export type ITodoProps = {
-// 	todoList: ITodoItem[]
-// } & ITodoHandleEvent;
-
 export interface ITodoProps {
 	todoList: ITodoItem[]
-}
+} 
 export interface ITodoState {
-    todoList: ITodoItem[],
+    todoList: ITodoItem[]
 }
 export interface ITodoHandleEvent {
     handleDeleteItem(id: string): void,
     handlechangeItemStatus(id: string): void,
 }
 export interface ITodoHandleAddItem{
-    handleAddItem(value: string): void
+    handleAddItem(value: string): any
 }

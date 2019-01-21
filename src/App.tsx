@@ -1,24 +1,31 @@
 import * as React from 'react';
+import * as ReactRedux from "react-redux";
+import * as actions from '../src/reducers/ts-todo/actions';
 import Footer from './footer';
 import Header from './header';
-import { ITodoItem, ITodoState } from './interface';
+import { ITodoState, ITodoHandleAddItem, ITodoHandleEvent } from './interface';
 import TodoList from './todoList';
 // import update from 'immutability-helper';
-export default class App extends React.Component {
-	public readonly state: Readonly<ITodoState> = {
-		todoList: []
+class App extends React.Component<ITodoState & ITodoHandleAddItem & ITodoHandleEvent, ITodoState, {}> {
+	constructor(props: any) {
+		super(props);
+		this.state = {
+			todoList: []
+		}
 	}
-
+	
 	public render() {
+		const { todoList, handleAddItem, handleDeleteItem, handlechangeItemStatus } = this.props;
+		
 		return (
 			<div className="App">
-				<Header handleAddItem={this.handleAddItem} />
-				{this.state.todoList.length ? <TodoList
-					todoList={this.state.todoList}
-					handleDeleteItem={this.handleDeleteItem}
-					handlechangeItemStatus={this.handlechangeItemStatus}
+				<Header handleAddItem={handleAddItem} />
+				{todoList.length ? <TodoList
+					todoList={todoList}
+					handleDeleteItem={handleDeleteItem}
+					handlechangeItemStatus={handlechangeItemStatus}
 				/> : this.renderNoTodo()}
-				<Footer todoList={this.state.todoList} />
+				<Footer todoList={todoList} />
 			</div>
 		);
 	}
@@ -26,30 +33,16 @@ export default class App extends React.Component {
 	private renderNoTodo() {
 		return <div className='noTodo'>no todo! add one!</div>;
 	}
-	// 添加一项todo
-	private handleAddItem = (value: string): void => {
-		const defaultList: ITodoItem[] = [{
-			contents: value,
-			done: false,
-			id: value + Math.random()
-		}];
-
-		this.setState({ todoList: this.state.todoList.concat(defaultList) });
-	}
-	// 删除一项todo
-	private handleDeleteItem = (id: string): void => {
-		const newDataList = this.state.todoList.filter(item => item.id !== id);
-
-		this.setState({ todoList: newDataList });
-	}
-	// 改变完成状态
-	private handlechangeItemStatus = (id: string): void => {
-		const newDataList = JSON.parse(JSON.stringify(this.state.todoList));
-
-		newDataList.forEach((item: any) => {
-			if (item.id === id) { item.done = !item.done };
-		});
-
-		this.setState({ todoList: newDataList });
-	}
 }
+
+export const mapStateToProps = (state: any) => state;
+
+export const mapDispatchToProps = (dispatch: any, ownProps: any) => {
+	return {
+		handleAddItem: (value: string): void => dispatch(actions.AddTodoItem(value)),
+		handleDeleteItem: (value: string): void => dispatch(actions.DeleteTodoItem(value)),
+		handlechangeItemStatus: (id: string): void => dispatch(actions.ChangeTodoItem(id))
+	};
+}
+
+export default ReactRedux.connect(mapStateToProps, mapDispatchToProps)(App);
